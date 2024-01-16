@@ -1,16 +1,17 @@
 #ifndef MOTOR_HPP
 #define MOTOR_HPP
 
-#define motor_1 2
-#define motor_2 3
-#define motor_3 4
-#define motor_4 5
-#define motor_5 6
-#define motor_6 7
-#define motor_7 8
-#define motor_8 9
+#define motor_1 13
+#define motor_2 12
+#define motor_3 14
+#define motor_4 27
+#define motor_5 26
+#define motor_6 25
+#define motor_7 33
+#define motor_8 32
 
 #include <Arduino.h>
+#include <esp32-hal-timer.h>
 
 extern byte moving_state;
 

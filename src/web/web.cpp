@@ -2,7 +2,8 @@
 
 const char *ssid = "phone_hotspot";
 const char *password = "dummy_pwd";
-WebServer server(80);
+
+WebServer _server(80);
 
 void web_init() {
     WiFi.begin(ssid, password);

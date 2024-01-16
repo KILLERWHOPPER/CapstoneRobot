@@ -1,14 +1,15 @@
 #include <Arduino.h>
 
 #include "motor/motor.hpp"
-
-int myFunction(int, int);
+#include "web/diy_wifi.hpp"
 
 void setup() {
-  
+  Serial.begin(9600);
   motor_init();
+  wifi_init();
 }
 
 void loop() {
-  return;
+  handleClient();
+  delay(20);
 }
