@@ -4,9 +4,9 @@
 
 // PARAMETERS
 
-char ssid[] = "Galaxy";          // your network SSID (name)
-char pass[] = "1029946339";      // your network password
-char server[] = "192.168.190.56";    // IP address of the server you want to connect to
+char ssid[] = "iPhone Lisa";          // your network SSID (name)
+char pass[] = "PourEloi";      // your network password
+char server[] = "172.20.10.3";    // IP address of the server you want to connect to
 int port = 3000;                    // port number
 int robot_id = 0;
 

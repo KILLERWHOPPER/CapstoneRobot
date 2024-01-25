@@ -2,14 +2,16 @@
 
 #include "motor/motor.hpp"
 #include "network/network.hpp"
+#include "sensors/sensor.hpp"
 
 void setup() {
   Serial.begin(9600);
-  motor_init();
-  setup_network();
+  //motor_init();
+  //setup_network();
+
 }
 
 void loop() {
-  loop_network();
+  //loop_network();
   delay(20);
 }
