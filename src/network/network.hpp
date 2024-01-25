@@ -16,5 +16,7 @@ extern char message[];        // Buffer to store incoming messages
 extern WiFiClient client;      // WiFi client for communication
 
 void registration();
+void setup_network();
+void loop_network();
 
 #endif // NETWORK_H

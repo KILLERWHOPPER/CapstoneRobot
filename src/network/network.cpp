@@ -4,9 +4,9 @@
 
 // PARAMETERS
 
-char ssid[] = "WIFI NAME HERE";          // your network SSID (name)
-char pass[] = "WIFI PASSWORD HERE";      // your network password
-char server[] = "192.168.2.14";    // IP address of the server you want to connect to
+char ssid[] = "iPhone Lisa";          // your network SSID (name)
+char pass[] = "PourEloi";      // your network password
+char server[] = "172.20.10.2";    // IP address of the server you want to connect to
 int port = 3000;                    // port number
 int robot_id = 0;
 
@@ -28,7 +28,7 @@ void registration() {
     Serial.println("Registration message sent to the server");
 }
 
-void setup() {
+void setup_network() {
   // initialize serial communication:
   Serial.begin(9600);
 
@@ -59,7 +59,7 @@ void setup() {
   }
 }
 
-void loop() {
+void loop_network() {
   // if there are incoming bytes available from the server:
   if (client.available()) {
     // read the bytes and print them to the serial monitor:
