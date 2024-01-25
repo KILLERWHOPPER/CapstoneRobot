@@ -1,12 +1,12 @@
 /* CODE FROM Prometheus Swan Project */
 
-#include <WiFi.h>
+#include <wifiMulti.h>
 
 // PARAMETERS
 
-char ssid[] = "iPhone Lisa";          // your network SSID (name)
-char pass[] = "PourEloi";      // your network password
-char server[] = "172.20.10.2";    // IP address of the server you want to connect to
+char ssid[] = "Galaxy";          // your network SSID (name)
+char pass[] = "1029946339";      // your network password
+char server[] = "192.168.190.56";    // IP address of the server you want to connect to
 int port = 3000;                    // port number
 int robot_id = 0;
 
@@ -16,6 +16,8 @@ int status = WL_IDLE_STATUS;       // the WiFi connection status
 const int bufferSize = 1024; // Adjust the buffer size based on your message size
 char message[bufferSize];
 WiFiClient client;
+
+WiFiMulti wifimulti;
 
 
 
@@ -32,14 +34,15 @@ void setup_network() {
   // initialize serial communication:
   Serial.begin(9600);
 
+  wifimulti.addAP(ssid, pass);
   // attempt to connect to WiFi network:
-  while (status != WL_CONNECTED) {
+  while (wifimulti.run() != WL_CONNECTED) {
     Serial.print("Attempting to connect to WiFi: ");
     Serial.println(ssid);
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
-    status = WiFi.begin(ssid, pass);
+    //status = WiFi.begin(ssid, pass);
     // wait 10 seconds for connection:
-    delay(10000);
+    delay(500);
   }
   Serial.println("Connected to WiFi");
 
