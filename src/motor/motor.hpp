@@ -18,7 +18,7 @@ extern byte moving_state;
 
 void motor_init();
 void move_forward();
-void move_forward_distance(float distance);
+void move_distance(float distance);
 void move_backward();
 void turn_left();
 void turn_right();

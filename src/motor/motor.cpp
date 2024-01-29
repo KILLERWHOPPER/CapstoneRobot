@@ -1,4 +1,5 @@
 #include "motor.hpp"
+#include <cmath>
 
 byte moving_state = 0;
 
@@ -51,9 +52,15 @@ void move_forward() {
   moving_state = 1;
 }
 
-void move_forward_distance(float distance) {
+void move_distance(float distance) {
+  if(distance > 0){
+    move_forward();
+  }
   // we know from testing that robot speed is 36 cm/s
-  move_forward();
+  if(distance < 0){
+    distance = std::abs(distance);
+    move_backward();
+  }
   int delayTime = 1000 * distance / 36;
   Serial.printf("delayTime: %d ms\n", delayTime);
   timer.attach_ms(delayTime, stop);
