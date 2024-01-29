@@ -2,6 +2,8 @@
 
 byte moving_state = 0;
 
+Ticker timer;
+
 void motor_init() {
   // pinMode(motor_1, OUTPUT);
   // pinMode(motor_2, OUTPUT);
@@ -47,6 +49,14 @@ void move_forward() {
   ledcWrite(6, 100);
   ledcWrite(7, 100);
   moving_state = 1;
+}
+
+void move_forward_distance(float distance) {
+  // we know from testing that robot speed is 36 cm/s
+  int delayTime = 1000 * distance / 36;
+  timer.attach_ms(delayTime, move_forward);
+  timer.detach();
+  stop();
 }
 
 void move_backward() {

@@ -1,6 +1,8 @@
-/* CODE FROM Prometheus Swan Project */
+/* BASE CODE FROM Prometheus Swan Project */
 
 #include <wifiMulti.h>
+#include <ArduinoJson.h>
+#include "network.hpp"
 
 // PARAMETERS
 
@@ -19,16 +21,6 @@ WiFiClient client;
 
 WiFiMulti wifimulti;
 
-
-
-void registration() {
-    // send a message to the server:
-    String jsonMessage = "{\"id\":" + String(robot_id) + ",\"command\":\"register\"}";
-
-    client.print(jsonMessage);
-
-    Serial.println("Registration message sent to the server");
-}
 
 void setup_network() {
   // initialize serial communication:
@@ -66,11 +58,17 @@ void loop_network() {
   // if there are incoming bytes available from the server:
   if (client.available()) {
     // read the bytes and print them to the serial monitor:
-    int bytesRead = client.readBytes(message, bufferSize);
-    message[bytesRead] = '\0';
+    // int bytesRead = client.readBytes(message, bufferSize);
+    // message[bytesRead] = '\0';
+
+    // read the message until a newline character is encountered:
+    String message = client.readStringUntil('\n');
 
     Serial.println("Message received from the server:");
     Serial.println(message);
+
+    // Decode the received message and execute corresponding command
+    decodeMessage(message);
 
     Serial.println("Sending message back...");
     String jsonMessage = "{\"id\":" + String(robot_id) + ",\"text\":\"ack\"}";
@@ -92,5 +90,54 @@ void loop_network() {
     } else {
       Serial.println("Reconnection to server failed");
     }
+  }
+}
+
+void registration() {
+    // send a message to the server:
+    String jsonMessage = "{\"id\":" + String(robot_id) + ",\"command\":\"register\"}";
+
+    client.print(jsonMessage);
+
+    Serial.println("Registration message sent to the server");
+}
+
+void decodeMessage(String jsonString) {
+  StaticJsonDocument<200> doc;
+  
+  // Parse the JSON string
+  DeserializationError error = deserializeJson(doc, jsonString);
+  
+  // Check for parsing errors
+  if (error) {
+    Serial.print("Failed to parse JSON: ");
+    Serial.println(error.c_str());
+    return;
+  }
+  
+  // Extract values from the JSON document
+  String command = doc["command"];
+  
+  // Extract float data array
+  JsonArray floatDataArray = doc["float_data"];
+  float floatData = 0.0; // Assuming there's only one element in the array
+  if (floatDataArray.size() > 0) {
+    floatData = floatDataArray[0]; // Extract the first element
+  }
+  
+  handleCommand(command, floatData);
+}
+
+void handleCommand(String command, float data) {
+  if (command == "move") {
+    // Process move command
+    Serial.println("Received move command");
+    // TODO: modify the moveforward so that it takes the distance into account 
+    move_forward_distance(data);
+  } else if (command == "turn") {
+    // Process turn command
+    Serial.println("Received turn command");
+    // TODO: modify the moveforward so that it takes the distance into account + do we want to make it move forward after that directly??
+    turn_left();
   }
 }
