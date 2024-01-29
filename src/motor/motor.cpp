@@ -53,10 +53,10 @@ void move_forward() {
 
 void move_forward_distance(float distance) {
   // we know from testing that robot speed is 36 cm/s
+  move_forward();
   int delayTime = 1000 * distance / 36;
-  timer.attach_ms(delayTime, move_forward);
-  timer.detach();
-  stop();
+  Serial.printf("delayTime: %d ms\n", delayTime);
+  timer.attach_ms(delayTime, stop);
 }
 
 void move_backward() {
