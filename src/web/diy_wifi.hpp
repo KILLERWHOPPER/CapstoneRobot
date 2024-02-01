@@ -33,6 +33,8 @@ void handleAction2();
 
 void handleAction3();
 
+void handleSetBit();
+
 void handleClient();
 
 #endif

@@ -19,6 +19,7 @@ void wifi_init() {
   server.on("/left", HTTP_GET, handleLeft);
   server.on("/right", HTTP_GET, handleRight);
   server.on("/stop", HTTP_GET, handleStop);
+  server.on("/set_bit", HTTP_POST, handleSetBit);
   server.begin();
   Serial.println("Server started");
 }
@@ -76,6 +77,22 @@ void handleAction3() {
   server.send(200, "text/html", "Action 3");
   // TODO: Put control code here
   Serial.println("Action 3");
+}
+
+void handleSetBit() {
+  server.send(200, "text/html", "Set bit");
+    // String patharg = server.pathArg(0);
+    // Serial.printf("Path: %s\n", patharg.c_str());
+    String rawData = server.arg("plain");
+    Serial.printf("Raw data: %s\n", rawData.c_str());
+
+  for (int i = 0; i < 8; i++) {
+    int curBit = rawData.charAt(i)-48;
+    ledcWrite(i, curBit*100);
+  }
+  // TODO: Put control code here
+  //Serial.printf("Bits: %s\n", bits);
+  //Serial.printf("Set bit: %d, %d, %d, %d, %d, %d, %d, %d\n", bits[0], bits[1], bits[2], bits[3], bits[4], bits[5], bits[6], bits[7]);
 }
 
 void handleClient() {
