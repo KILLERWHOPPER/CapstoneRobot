@@ -8,8 +8,8 @@
 #define motor_2_B 26
 #define motor_2_PWM 25
 
-#define pwm_freq 2000
-#define motor_speed 127 //out of 255
+#define pwm_freq 1000
+#define motor_speed 127  //out of 255
 
 #include <Arduino.h>
 #include <esp32-hal-timer.h>
