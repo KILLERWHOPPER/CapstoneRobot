@@ -6,9 +6,9 @@
 
 // PARAMETERS
 
-char ssid[] = "Galaxy";          // your network SSID (name)
-char pass[] = "1029946339";      // your network password
-char server[] = "192.168.190.56";    // IP address of the server you want to connect to
+char ssid[] = "iPhone";          // your network SSID (name)
+char pass[] = "00000000";      // your network password
+char server[] = "172.20.10.4";    // IP address of the server you want to connect to
 int port = 3000;                    // port number
 int robot_id = 0;
 
@@ -103,7 +103,7 @@ void registration() {
 }
 
 void decodeMessage(String jsonString) {
-  StaticJsonDocument<200> doc;
+  DynamicJsonDocument doc(200);
   
   // Parse the JSON string
   DeserializationError error = deserializeJson(doc, jsonString);
@@ -133,7 +133,7 @@ void handleCommand(String command, float data) {
     // Process move command
     Serial.println("Received move command");
     // TODO: modify the moveforward so that it takes the distance into account 
-    move_forward_distance(data);
+    move_distance(data);
   } else if (command == "turn") {
     // Process turn command
     Serial.println("Received turn command");
