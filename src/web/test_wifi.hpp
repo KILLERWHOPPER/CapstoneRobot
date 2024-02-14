@@ -1,8 +1,8 @@
 #ifndef DIY_WIFI_HPP
 #define DIY_WIFI_HPP
 
-#define WIFI_SSID "Galaxy"
-#define WIFI_PASSWORD "1029946339"
+#define WIFI_SSID "NothingPhone"
+#define WIFI_PASSWORD "84639188"
 
 #include <Arduino.h>
 #include <WiFi.h>

@@ -10,14 +10,8 @@ void motor_init() {
   pinMode(motor_2_B, OUTPUT);
   pinMode(motor_2_PWM, OUTPUT);
   stop();
-//   ledcSetup(0, pwm_freq, 8);
-//   ledcAttachPin(motor_1_PWM, 0);
-//   ledcSetup(1, pwm_freq, 8);
-//   ledcAttachPin(motor_2_PWM, 1);
-//   ledcWrite(0, motor_speed);
-//   ledcWrite(1, motor_speed);
-analogWrite(motor_1_PWM, motor_speed);
-analogWrite(motor_2_PWM, motor_speed);
+  analogWrite(motor_1_PWM, motor_speed);
+  analogWrite(motor_2_PWM, motor_speed);
 }
 
 void move_forward() {

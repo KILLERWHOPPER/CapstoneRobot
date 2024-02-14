@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
 #include "motor/motor.hpp"
-#include "web/diy_wifi.hpp"
+#include "web/test_wifi.hpp"
 
 void setup() {
   Serial.begin(9600);
