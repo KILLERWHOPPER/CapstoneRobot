@@ -24,5 +24,6 @@ void turn_left();
 void turn_right();
 void stop();
 void move_distance(float distance);
+void turn_angle(float angle);
 
 #endif

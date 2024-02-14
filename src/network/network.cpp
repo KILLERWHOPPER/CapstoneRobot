@@ -6,9 +6,9 @@
 
 // PARAMETERS
 
-char ssid[] = "iPhone";          // your network SSID (name)
-char pass[] = "00000000";      // your network password
-char server[] = "172.20.10.4";    // IP address of the server you want to connect to
+char ssid[] = "iPhone Lisa";          // your network SSID (name)
+char pass[] = "PourEloi";      // your network password
+char server[] = "172.20.10.2";    // IP address of the server you want to connect to
 int port = 3000;                    // port number
 int robot_id = 0;
 
@@ -138,6 +138,6 @@ void handleCommand(String command, float data) {
     // Process turn command
     Serial.println("Received turn command");
     // TODO: modify the moveforward so that it takes the distance into account + do we want to make it move forward after that directly??
-    turn_left();
+    turn_angle(data);
   }
 }

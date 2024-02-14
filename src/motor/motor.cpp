@@ -2,7 +2,6 @@
 Ticker timer;
 #include <cmath>
 
-
 byte moving_state = 0;
 
 void motor_init() {
@@ -19,7 +18,7 @@ void motor_init() {
 //   ledcAttachPin(motor_2_PWM, 1);
 //   ledcWrite(0, motor_speed);
 //   ledcWrite(1, motor_speed);
-analogWrite(motor_1_PWM, motor_speed);
+analogWrite(motor_1_PWM, motor_speed-5);
 analogWrite(motor_2_PWM, motor_speed);
 }
 
@@ -31,12 +30,34 @@ void move_distance(float distance) {
   }
   // we know from testing that robot speed is 36 cm/s
   if(distance < 0){
-    distance = std::abs(distance);
+    Serial.printf("The robot is moving backwards");
+    distance = 0 - distance;
     move_backward();
   }
-  int delayTime = 1000 * distance / 36;
+  int delayTime = 1000 * distance / 36; // we know from testing that robot speed is 36 cm/s
   Serial.printf("delayTime: %d ms\n", delayTime);
   timer.attach_ms(delayTime, stop);
+  // delay(5000);
+  // stop();
+}
+
+void turn_angle(float angle) {
+
+  if(angle > 0){
+    Serial.printf("The robot is turn right");
+    turn_right();
+  }
+  // we know from testing that robot speed is 36 cm/s
+  if(angle < 0){
+    Serial.printf("The robot is turn left");
+    angle = 0 - angle;
+    turn_left();
+  }
+  int delayTime = angle * 600 / 90; // we know from testing that a 90deg spin takes about 700ms
+  Serial.printf("delayTime: %d ms\n", delayTime);
+  timer.attach_ms(delayTime, stop);
+  // delay(5000);
+  // stop();
 }
 
 
