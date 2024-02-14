@@ -9,3 +9,21 @@ in the development cycle.
 
 More information about PlatformIO Unit Testing:
 - https://docs.platformio.org/en/latest/advanced/unit-testing/index.html
+
+| Combination | L | R |
+| 0000 | S | S |
+| 0001 | S | S |
+| 0010 | S | S |
+| 0011 | S | S |
+| 0100 | S | S |
+| 0101 | S | S |
+| 0110 | S | S |
+| 0111 | S | S |
+| 1000 | S | F(Slow) |
+| 1001 | S | S |
+| 1010 | B | F | Left
+| 1011 | F(Slow) | F | Forward
+| 1100 | S | S |
+| 1101 | S | S |
+| 1110 | B | B(Slow)| Backward
+| 1111 | S | S |
