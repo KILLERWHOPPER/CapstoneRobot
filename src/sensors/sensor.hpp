@@ -13,8 +13,6 @@
 #include "motor/motor.hpp"
 
 void sensors_init();
-void read_sensors_th1();
-
-
+void read_sensors_th1(void *sensors_th1);
 
 #endif
