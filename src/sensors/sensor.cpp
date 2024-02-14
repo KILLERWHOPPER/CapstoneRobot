@@ -1,5 +1,5 @@
 #define MAX_RANG (520)
-#define ADC_SOLUTION (1023.0)
+#define ADC_SOLUTION (4095.0)
 #define THRESHOLD_DISTANCE (15)  // Distance threshold in cm
 
 #include "sensor.hpp"
@@ -29,7 +29,7 @@ void read_sensors_th1(void *sensors_th1) {
     // sensity[5] = analogRead(sensor_6);
 
     distances[0] = sensity[0] * MAX_RANG / ADC_SOLUTION;
-    Serial.printf("Warning sensor: %d\n Distance = %d\n", 0, distances[0]);
+    Serial.printf("Warning sensor: %d\n Distance = %f\n", 0, distances[0]);
 
     // if (!isClose) {
     //   for (int i = 0; i < 3; i++) {
@@ -58,6 +58,6 @@ void read_sensors_th1(void *sensors_th1) {
 
     //   // Small delay to maintain responsiveness
     // }
-    delay(1);
+    delay(100);
   }
 }
