@@ -1,130 +1,113 @@
 #include "motor.hpp"
-
-byte moving_state = 0;
+Ticker timer;
+byte moving_dir =
+    0;  // 0: stop, 1: forward, 2: backward, 3: turn left, 4: turn right
 
 void motor_init() {
-  // pinMode(motor_1, OUTPUT);
-  // pinMode(motor_2, OUTPUT);
-  // pinMode(motor_3, OUTPUT);
-  // pinMode(motor_4, OUTPUT);
-  // pinMode(motor_5, OUTPUT);
-  // pinMode(motor_6, OUTPUT);
-  // pinMode(motor_7, OUTPUT);
-  // pinMode(motor_8, OUTPUT);
-  ledcSetup(0, 800, 8);
-  ledcAttachPin(motor_1, 0);
-  ledcSetup(1, 800, 8);
-  ledcAttachPin(motor_2, 1);
-  ledcSetup(2, 800, 8);
-  ledcAttachPin(motor_3, 2);
-  ledcSetup(3, 800, 8);
-  ledcAttachPin(motor_4, 3);
-  ledcSetup(4, 800, 8);
-  ledcAttachPin(motor_5, 4);
-  ledcSetup(5, 800, 8);
-  ledcAttachPin(motor_6, 5);
-  ledcSetup(6, 800, 8);
-  ledcAttachPin(motor_7, 6);
-  ledcSetup(7, 800, 8);
-  ledcAttachPin(motor_8, 7);
+  pinMode(motor_1_A, OUTPUT);
+  pinMode(motor_1_B, OUTPUT);
+  pinMode(motor_1_PWM, OUTPUT);
+  pinMode(motor_2_A, OUTPUT);
+  pinMode(motor_2_B, OUTPUT);
+  pinMode(motor_2_PWM, OUTPUT);
+  stop();
+  analogWrite(motor_1_PWM, motor_speed - 5);
+  analogWrite(motor_2_PWM, motor_speed);
+}
+
+int cal_move_delay(float distance) {
+    //TODO: calculate delay time
+    return 0;
+}
+
+int cal_turn_delay(float angle) {
+    //TODO: calculate delay time
+    return 0;
+}
+
+void move_distance(float distance) {
+  if (distance > 0) {
+    if (directions[0]) {
+      Serial.println("Can not move forward: Blocked");
+      return;
+    }
+    Serial.printf("The robot is moving forward");
+    move_forward();
+  }
+  // we know from testing that robot speed is 36 cm/s
+  if (distance < 0) {
+    if (directions[1]) {
+      Serial.println("Can not move backward: Blocked");
+      return;
+    }
+    Serial.printf("The robot is moving backwards");
+    distance = 0 - distance;
+    move_backward();
+  }
+  int delayTime = cal_move_delay(distance);
+    //   1000 * distance / 36;  // we know from testing that robot speed is 36 cm/s
+  Serial.printf("delayTime: %d ms\n", delayTime);
+  timer.attach_ms(delayTime, stop);
+  // delay(5000);
+  // stop();
+}
+
+void turn_angle(float angle) {
+  if (angle > 0) {
+    Serial.printf("The robot is turn right");
+    turn_right();
+  }
+  // we know from testing that robot speed is 36 cm/s
+  if (angle < 0) {
+    Serial.printf("The robot is turn left");
+    angle = 0 - angle;
+    turn_left();
+  }
+  int delayTime = cal_turn_delay(angle);
+    //   angle * 600 /
+    //   90;  // we know from testing that a 90deg spin takes about 700ms
+  Serial.printf("delayTime: %d ms\n", delayTime);
+  timer.attach_ms(delayTime, stop);
+  // delay(5000);
+  // stop();
 }
 
 void move_forward() {
-  //   analogWrite(motor_1, 100);
-  //   analogWrite(motor_2, 100);
-  //   analogWrite(motor_3, 100);
-  //   analogWrite(motor_4, 0);
-  //   analogWrite(motor_5, 100);
-  //   analogWrite(motor_6, 100);
-  //   analogWrite(motor_7, 100);
-  //   analogWrite(motor_8, 100);
-  ledcWrite(0, 100);
-  ledcWrite(1, 100);
-  ledcWrite(2, 100);
-  ledcWrite(3, 0);
-  ledcWrite(4, 100);
-  ledcWrite(5, 100);
-  ledcWrite(6, 100);
-  ledcWrite(7, 100);
-  moving_state = 1;
+  digitalWrite(motor_1_A, LOW);
+  digitalWrite(motor_1_B, HIGH);
+  digitalWrite(motor_2_A, HIGH);
+  digitalWrite(motor_2_B, LOW);
+  moving_dir = 1;
 }
 
 void move_backward() {
-  //   analogWrite(motor_1, 100);
-  //   analogWrite(motor_2, 0);
-  //   analogWrite(motor_3, 100);
-  //   analogWrite(motor_4, 100);
-  //   analogWrite(motor_5, 100);
-  //   analogWrite(motor_6, 100);
-  //   analogWrite(motor_7, 100);
-  //   analogWrite(motor_8, 100);
-  ledcWrite(0, 100);
-  ledcWrite(1, 0);
-  ledcWrite(2, 100);
-  ledcWrite(3, 100);
-  ledcWrite(4, 100);
-  ledcWrite(5, 100);
-  ledcWrite(6, 100);
-  ledcWrite(7, 100);
-  moving_state = 2;
+  digitalWrite(motor_1_A, HIGH);
+  digitalWrite(motor_1_B, LOW);
+  digitalWrite(motor_2_A, LOW);
+  digitalWrite(motor_2_B, HIGH);
+  moving_dir = 2;
 }
 
 void turn_left() {
-  //   analogWrite(motor_1, 100);
-  //   analogWrite(motor_2, 0);
-  //   analogWrite(motor_3, 100);
-  //   analogWrite(motor_4, 0);
-  //   analogWrite(motor_5, 0);
-  //   analogWrite(motor_6, 0);
-  //   analogWrite(motor_7, 0);
-  //   analogWrite(motor_8, 0);
-  ledcWrite(0, 100);
-  ledcWrite(1, 0);
-  ledcWrite(2, 100);
-  ledcWrite(3, 0);
-  ledcWrite(4, 0);
-  ledcWrite(5, 0);
-  ledcWrite(6, 0);
-  ledcWrite(7, 0);
-  moving_state = 3;
+  digitalWrite(motor_1_A, HIGH);
+  digitalWrite(motor_1_B, LOW);
+  digitalWrite(motor_2_A, HIGH);
+  digitalWrite(motor_2_B, LOW);
+  moving_dir = 3;
 }
 
 void turn_right() {
-  //   analogWrite(motor_1, 100);
-  //   analogWrite(motor_2, 100);
-  //   analogWrite(motor_3, 100);
-  //   analogWrite(motor_4, 100);
-  //   analogWrite(motor_5, 100);
-  //   analogWrite(motor_6, 100);
-  //   analogWrite(motor_7, 100);
-  //   analogWrite(motor_8, 100);
-  ledcWrite(0, 100);
-  ledcWrite(1, 100);
-  ledcWrite(2, 100);
-  ledcWrite(3, 100);
-  ledcWrite(4, 100);
-  ledcWrite(5, 100);
-  ledcWrite(6, 100);
-  ledcWrite(7, 100);
-  moving_state = 4;
+  digitalWrite(motor_1_A, LOW);
+  digitalWrite(motor_1_B, HIGH);
+  digitalWrite(motor_2_A, LOW);
+  digitalWrite(motor_2_B, HIGH);
+  moving_dir = 4;
 }
 
 void stop() {
-  //   analogWrite(motor_1, 0);
-  //   analogWrite(motor_2, 0);
-  //   analogWrite(motor_3, 0);
-  //   analogWrite(motor_4, 0);
-  //   analogWrite(motor_5, 0);
-  //   analogWrite(motor_6, 0);
-  //   analogWrite(motor_7, 0);
-  //   analogWrite(motor_8, 0);
-  ledcWrite(0, 0);
-  ledcWrite(1, 0);
-  ledcWrite(2, 0);
-  ledcWrite(3, 0);
-  ledcWrite(4, 0);
-  ledcWrite(5, 0);
-  ledcWrite(6, 0);
-  ledcWrite(7, 0);
-  moving_state = 0;
+  digitalWrite(motor_1_A, HIGH);
+  digitalWrite(motor_1_B, HIGH);
+  digitalWrite(motor_2_A, HIGH);
+  digitalWrite(motor_2_B, HIGH);
+  moving_dir = 0;
 }

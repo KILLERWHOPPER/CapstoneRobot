@@ -2,7 +2,10 @@
 #define NETWORK_H
 
 #include <Arduino.h>
+#include <ArduinoJson.h>
 #include <WiFi.h>
+#include <wifiMulti.h>
+#include "motor/motor.hpp"
 
 extern char ssid[];          // your network SSID (name)
 extern char pass[];          // your network password
@@ -18,5 +21,7 @@ extern WiFiClient client;      // WiFi client for communication
 void registration();
 void setup_network();
 void loop_network();
+void decodeMessage(String jsonString);
+void handleCommand(String command, float data);
 
 #endif // NETWORK_H

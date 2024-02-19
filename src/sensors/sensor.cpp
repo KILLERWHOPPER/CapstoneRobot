@@ -1,12 +1,10 @@
-#define MAX_RANG (520)
-#define ADC_SOLUTION (4095.0)
-#define THRESHOLD_DISTANCE (15)  // Distance threshold in cm
-
-#include "sensor.hpp"
+#include "sensors/sensor.hpp"
 
 // initialize variables
 float distances[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 float sensity[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+bool directions[] = {false, false, false,
+                     false};  // Forward, Backward, Left, Right
 bool isClose = false;
 
 void sensors_init() {
@@ -18,46 +16,35 @@ void sensors_init() {
   pinMode(sensor_6, INPUT);
 }
 
+float cal_distance(float rawD) {
+  // TODO: Calculate distance
+  return rawD;
+}
+
 void read_sensors_th1(void *sensors_th1) {
   while (1) {
     isClose = false;
     sensity[0] = analogRead(sensor_1);
     sensity[1] = analogRead(sensor_2);
     sensity[2] = analogRead(sensor_3);
-    // sensity[3] = analogRead(sensor_4);
-    // sensity[4] = analogRead(sensor_5);
-    // sensity[5] = analogRead(sensor_6);
+    sensity[3] = analogRead(sensor_4);
+    sensity[4] = analogRead(sensor_5);
+    sensity[5] = analogRead(sensor_6);
 
-    distances[0] = sensity[0] * MAX_RANG / ADC_SOLUTION;
-    Serial.printf("Warning sensor: %d\n Distance = %f\n", 0, distances[0]);
+    int i = 0;
+    for (float cur : sensity) {
+      distances[i] = cal_distance(cur);
+      i++;
+    }
 
-    // if (!isClose) {
-    //   for (int i = 0; i < 3; i++) {
-    //     distances[i] = sensity[i] * MAX_RANG / ADC_SOLUTION;
-    //     if (distances[i] <= THRESHOLD_DISTANCE) {
-    //       // Trigger sth
-    //       stop();
-    //       isClose = true;
-    //       Serial.printf("Warning sensor: %d\n Distance = %d\n", i,
-    //                     distances[i]);
-    //       break;
-    //     }
-    //   }
-    // } else {
-    //   for (int i = 0; i < 3; i++) {
-    //     distances[i] = sensity[i] * MAX_RANG / ADC_SOLUTION;
-    //     if (distances[i] > THRESHOLD_DISTANCE) {
-    //       // Trigger sth
-    //       isClose = true;
-    //       // Serial.printf("Warning sensor: %d\n Distance = %d\n", i,
-    //       // distances[i]);
-    //       continue;
-    //       isClose = false;
-    //     }
-    //   }
-
-    //   // Small delay to maintain responsiveness
-    // }
+    for (int i = 0; i < 4; i++) {
+      if (distances[i] < THRESHOLD_DISTANCE) {
+        directions[i] = true;
+        if(moving_dir == i+1) stop();
+      } else {
+        directions[i] = false;
+      }
+    }
     delay(100);
   }
 }
