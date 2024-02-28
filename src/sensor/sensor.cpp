@@ -3,8 +3,7 @@
 // initialize variables
 float distances[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 float sensity[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-bool directions[] = {false, false, false,
-                     false};  // Forward, Backward, Left, Right
+bool directions[] = {false, false};  // Forward, Backward, Left, Right
 bool isClose = false;
 
 void sensors_init() {
@@ -17,33 +16,46 @@ void sensors_init() {
 }
 
 float cal_distance(float rawD) {
-  // TODO: Calculate distance
-  return rawD;
+  float distanceCm = rawD * SOUND_SPEED/2;
+  return distanceCm;
 }
 
-void read_sensors_th1(void *sensors_th1) {
-  while (1) {
-    isClose = false;
-    sensity[0] = analogRead(sensor_1);
-    sensity[1] = analogRead(sensor_2);
-    sensity[2] = analogRead(sensor_3);
-    sensity[3] = analogRead(sensor_4);
-    sensity[4] = analogRead(sensor_5);
-    sensity[5] = analogRead(sensor_6);
+// TODO : fix infinite loop 
+void read_sensors_th1() {
+  isClose = false;
+  while (isClose == false) {
+    sensity[0] = analogRead(sensor_1); // forward
+    sensity[1] = analogRead(sensor_2); // forward
+    sensity[2] = analogRead(sensor_3); // forward
+    sensity[3] = analogRead(sensor_4); // backward
+    sensity[4] = analogRead(sensor_5); // backward
+    sensity[5] = analogRead(sensor_6); // backward
 
     int i = 0;
     for (float cur : sensity) {
       distances[i] = cal_distance(cur);
+      printf("%f \n", distances[i]);
       i++;
     }
 
-    for (int i = 0; i < 4; i++) {
-      if (distances[i] < THRESHOLD_DISTANCE) {
-        directions[i] = true;
-        if(moving_dir == i+1) stop();
-      } else {
-        directions[i] = false;
+    // If currently moving forward
+    if(moving_dir == 1) {
+      if (distances[0] < THRESHOLD_DISTANCE || distances[1] < THRESHOLD_DISTANCE || distances[2] < THRESHOLD_DISTANCE) {
+        directions[0] = false;
+        isClose = true;
+        stop();
       }
+      else directions[0] = true;
+    }
+
+    // If currently moving backward
+    if(moving_dir == 2) {
+      if (distances[3] < THRESHOLD_DISTANCE || distances[4] < THRESHOLD_DISTANCE || distances[5] < THRESHOLD_DISTANCE) {        
+        directions[1] = false;
+        isClose = true;
+        stop();
+      }
+      else directions[1] = true;
     }
     delay(100);
   }

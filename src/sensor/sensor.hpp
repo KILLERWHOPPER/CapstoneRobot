@@ -8,9 +8,8 @@
 #define sensor_5 32
 #define sensor_6 35
 
-#define MAX_RANG (520)
-#define ADC_SOLUTION (4095.0)
 #define THRESHOLD_DISTANCE (15)  // Distance threshold in cm
+#define SOUND_SPEED 0.034
 
 #include <Arduino.h>
 #include <esp32-hal-timer.h>
@@ -19,6 +18,6 @@
 extern bool directions[];  // Forward, Backward, Left, Right
 
 void sensors_init();
-void read_sensors_th1(void *sensors_th1);
+void read_sensors_th1();
 
 #endif

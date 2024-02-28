@@ -16,18 +16,19 @@ void motor_init() {
 }
 
 int cal_move_delay(float distance) {
-    //TODO: calculate delay time
-    return 0;
+    distance = 1000 * distance / 36;
+    return distance;
 }
 
 int cal_turn_delay(float angle) {
-    //TODO: calculate delay time
-    return 0;
+    angle = angle * 600 / 90; 
+    return angle;
 }
 
 void move_distance(float distance) {
+  read_sensors_th1();
   if (distance > 0) {
-    if (directions[0]) {
+    if (directions[0] == false) {
       Serial.println("Can not move forward: Blocked");
       return;
     }
@@ -36,7 +37,7 @@ void move_distance(float distance) {
   }
   // we know from testing that robot speed is 36 cm/s
   if (distance < 0) {
-    if (directions[1]) {
+    if (directions[1] == false) {
       Serial.println("Can not move backward: Blocked");
       return;
     }
