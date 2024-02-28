@@ -9,13 +9,14 @@
 #define motor_2_PWM 25
 
 #define pwm_freq 1000
-#define motor_speed 127  //out of 255
+#define motor_speed 127  // out of 255
 
 #include <Arduino.h>
-#include <esp32-hal-timer.h>
 #include <Ticker.h>
+#include <esp32-hal-timer.h>
+#include "sensor/sensor.hpp"
 
-extern byte moving_state;
+extern byte moving_dir;
 
 void motor_init();
 void move_forward();
