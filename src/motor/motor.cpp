@@ -16,41 +16,38 @@ void motor_init() {
 }
 
 int cal_move_delay(float distance) {
-    distance = 1000 * distance / 36;
-    return distance;
+    int delay = 1000 * distance / 36;
+    return delay;
 }
 
 int cal_turn_delay(float angle) {
-    angle = angle * 600 / 90; 
-    return angle;
+    int delay = angle * 600 / 90; 
+    return delay;
 }
 
 void move_distance(float distance) {
-  read_sensors_th1();
-  if (distance > 0) {
-    if (directions[0] == false) {
-      Serial.println("Can not move forward: Blocked");
-      return;
+  bool distanceCompleted = false; 
+  while ((isClose == false) && (distanceCompleted == false)) {
+    printf("Entered while move distance");
+    if (distance > 0) {
+      if (can_move_forward())
+        move_forward();
+      else 
+        isClose = true;
     }
-    Serial.printf("The robot is moving forward");
-    move_forward();
-  }
-  // we know from testing that robot speed is 36 cm/s
-  if (distance < 0) {
-    if (directions[1] == false) {
-      Serial.println("Can not move backward: Blocked");
-      return;
+    if (distance < 0) {
+      distance = 0 - distance;
+      if (can_move_backward()) {
+         move_backward();
+      }
+      else 
+        isClose = true;
     }
-    Serial.printf("The robot is moving backwards");
-    distance = 0 - distance;
-    move_backward();
+    int delayTime = cal_move_delay(distance);
+    timer.attach_ms(delayTime, stop);
+    distanceCompleted = true;
   }
-  int delayTime = cal_move_delay(distance);
-    //   1000 * distance / 36;  // we know from testing that robot speed is 36 cm/s
-  Serial.printf("delayTime: %d ms\n", delayTime);
-  timer.attach_ms(delayTime, stop);
-  // delay(5000);
-  // stop();
+  stop();
 }
 
 void turn_angle(float angle) {

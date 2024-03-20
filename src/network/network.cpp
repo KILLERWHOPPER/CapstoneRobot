@@ -132,12 +132,10 @@ void handleCommand(String command, float data) {
   if (command == "move") {
     // Process move command
     Serial.println("Received move command");
-    // TODO: modify the moveforward so that it takes the distance into account 
     move_distance(data);
   } else if (command == "turn") {
     // Process turn command
     Serial.println("Received turn command");
-    // TODO: modify the moveforward so that it takes the distance into account + do we want to make it move forward after that directly??
     turn_angle(data);
   }
 }
