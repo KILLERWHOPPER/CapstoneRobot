@@ -6,6 +6,7 @@ float sensity[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 bool directions[] = {false, false};  // Forward, Backward
 const char* sensorLabels[] = {"sensor_1 (forward)", "sensor_2 (forward)", "sensor_3 (forward)", "sensor_4 (backward)", "sensor_5 (backward)", "sensor_6 (backward)"};
 bool isClose = false;
+float para[5] = {0.01, 1.2, 5, 0.1, 0.0};  // q, r, x, p, k
 
 void sensors_init() {
   Serial.begin(9600);
@@ -16,6 +17,37 @@ void sensors_init() {
   pinMode(sensor_5, INPUT);
   pinMode(sensor_6, INPUT);
 }
+
+float kalman_c(float* para, float measurement) {
+  // q, r, x, p, k
+  // 0, 1, 2, 3, 4
+  float q = para[0];
+  float r = para[1];
+  float x = para[2];
+  float p = para[3];
+  float k = para[4];
+
+  p += q;
+  k = p / (p + r);
+  x += k * (measurement - x);
+  p = (1 - k) * p;
+
+  if (fpclassify(q) != FP_NORMAL) return -1.0;
+  if (fpclassify(r) != FP_NORMAL) return -1.0;
+  if (fpclassify(x) != FP_NORMAL) return -1.0;
+  if (fpclassify(p) != FP_NORMAL) return -1.0;
+  if (fpclassify(k) != FP_NORMAL) return -1.0;
+
+  para[0] = q;
+  para[1] = r;
+  para[2] = x;
+  para[3] = p;
+  para[4] = k;
+  return x;
+}
+
+//TODO: apply karman filter
+
 
 float cal_distance(float rawD) {
   float distanceCm = ((rawD * MAX_RANG) / (ADC_SOLUTION));
@@ -67,14 +99,20 @@ void read_sensors_th1() {
 
 void simple_read_sensors() {
   float raw = 0;
+  float raw_k = 0;
   float distance;
 
   while (1) {
-    raw = analogRead(sensor_5);
+    raw=analogRead(sensor_5);
+    raw_k = kalman_c(para,raw );
     distance = raw * MAX_RANG  / ADC_SOLUTION;
     // Print the average sensor reading
-    printf("%s detects: %f \n", sensorLabels[5], raw);
-    delay (10);
+    // printf("%s detects: %f, %f \n", sensorLabels[5],raw, raw_k);
+    Serial.print(">raw:");
+    Serial.println(raw);
+    Serial.print(">kalman:");
+    Serial.println(raw_k);
+    delay(100);
   }
 }
 
