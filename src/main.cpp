@@ -16,7 +16,7 @@ void setup() {
 }
 
 void loop() {
-  simple_read_sensors();
+  can_move_forward_test();
   // loop_network();
   delay(20);
 }
