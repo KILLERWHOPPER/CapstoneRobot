@@ -15,5 +15,5 @@ void loop() {
   can_move_forward();
   can_move_backward();
   // loop_network();
-  delay(20);
+  delay(500);
 }

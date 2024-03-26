@@ -19,7 +19,9 @@ float cal_distance(float rawD) {
   return distanceCm;
 }
 
-bool can_move_forward() {
+void can_move_forward() {
+  // printf(">>>>>>Entering sensor reading function \n");
+
   float values_sensor_1[10];
   float values_sensor_2[10];
   float values_sensor_3[10];
@@ -59,17 +61,21 @@ bool can_move_forward() {
     // delay(10);
   }
 
-  if (distances[0] < 1 || distances[1] < 1 || distances[2] < 1) {
+  if (distances[0] < 0 || distances[1] < 0 || distances[2] < 0) {
+    noObstacle = false;
     printf("obstacle detected \n");
-    return false;
+    // return false;
   }
   else {
+    noObstacle = true;
     printf("no obstacle \n");
-    return true;
+    // return true;
   }
 }
 
 bool can_move_backward() {
+  // printf(" >>>>>>  Entering sensor reading function \n");
+
   float values_sensor_4[10];
   float values_sensor_5[10];
   float values_sensor_6[10];

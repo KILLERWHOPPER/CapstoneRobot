@@ -3,6 +3,8 @@ Ticker timer;
 byte moving_dir =
     0;  // 0: stop, 1: forward, 2: backward, 3: turn left, 4: turn right
 
+bool noObstacle = true;
+
 void motor_init() {
   pinMode(motor_1_A, OUTPUT);
   pinMode(motor_1_B, OUTPUT);
@@ -27,25 +29,36 @@ int cal_turn_delay(float angle) {
 
 void move_distance(float distance) {
   bool distanceCompleted = false; 
-  while ((isClose == false) && (distanceCompleted == false)) {
+
+  // compute distance to travel
+  int delayTime = cal_move_delay(distance);
+
+  while ((noObstacle == true) && (distanceCompleted == false)) {
+
     if (distance > 0) {
-      if (can_move_forward() == true)
+      can_move_forward();
+      Serial.printf("bool is : %d \n", noObstacle);
+      if (noObstacle == true) {
+        Serial.printf("moving forward \n");
         move_forward();
-      else 
-        isClose = true;
-    }
-    if (distance < 0) {
-      distance = 0 - distance;
-      if (can_move_backward()) {
-         move_backward();
       }
-      else 
-        isClose = true;
     }
-    int delayTime = cal_move_delay(distance);
+
+    // if (distance < 0) {
+    //   distance = 0 - distance;
+    //   if (can_move_backward()) {
+    //      move_backward();
+    //   }
+    //   else 
+    //     isClose = true;
+    // }
+
     timer.attach_ms(delayTime, stop);
+    Serial.printf("stoping 1 \n");
     distanceCompleted = true;
   }
+
+  // Serial.printf("stoping 2 \n");
   stop();
 }
 
@@ -75,6 +88,7 @@ void move_forward() {
   digitalWrite(motor_2_A, HIGH);
   digitalWrite(motor_2_B, LOW);
   moving_dir = 1;
+    Serial.printf(">> Robot is moving \n");
 }
 
 void move_backward() {

@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 #include <WiFi.h>
+#include <wifiMulti.h>
+#include <ArduinoJson.h>
 #include "motor/motor.hpp"
 
 extern char ssid[];          // your network SSID (name)

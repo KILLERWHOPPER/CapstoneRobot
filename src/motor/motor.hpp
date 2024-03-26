@@ -1,12 +1,12 @@
 #ifndef MOTOR_HPP
 #define MOTOR_HPP
 
-#define motor_1_A 13
-#define motor_1_B 12
-#define motor_1_PWM 14
-#define motor_2_A 27
-#define motor_2_B 26
-#define motor_2_PWM 25
+#define motor_1_A 27 // new board
+#define motor_1_B 14 // new board
+#define motor_1_PWM 12 // new board
+#define motor_2_A 26 // new board
+#define motor_2_B 25 // new board
+#define motor_2_PWM 13 // new board
 
 #define pwm_freq 1000
 #define motor_speed 127  // out of 255
@@ -17,7 +17,7 @@
 #include "sensor/sensor.hpp"
 
 extern byte moving_dir;
-extern bool isClose;
+extern bool noObstacle;
 
 void motor_init();
 void move_forward();

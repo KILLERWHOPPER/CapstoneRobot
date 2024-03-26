@@ -12,11 +12,10 @@
 #define ADC_SOLUTION (4095) // 12-bit resolution
 
 #include <Arduino.h>
-#include <esp32-hal-timer.h>
 #include "motor/motor.hpp"
 
 void sensors_init();
-bool can_move_forward();
+void can_move_forward();
 bool can_move_backward();
 
 #endif

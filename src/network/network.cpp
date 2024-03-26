@@ -1,7 +1,5 @@
 /* BASE CODE FROM Prometheus Swan Project */
 
-#include <wifiMulti.h>
-#include <ArduinoJson.h>
 #include "network.hpp"
 
 // PARAMETERS
