@@ -1,12 +1,12 @@
 #ifndef SENSOR_HPP
 #define SENSOR_HPP
 
-#define sensor_1 14
-#define sensor_2 27
-#define sensor_3 26
-#define sensor_4 32 // backward 
-#define sensor_5 33 // backward
-#define sensor_6 25 // backward
+#define sensor_1 14 // forward (right)
+#define sensor_2 27 // forward (middle)
+#define sensor_3 26 // forward (left)
+#define sensor_4 32 // backward (right)
+#define sensor_5 33 // backward (middle)
+#define sensor_6 25 // backward (left)
 
 #define THRESHOLD_DISTANCE (15)  // Distance threshold in cm
 #define MAX_RANG (520)

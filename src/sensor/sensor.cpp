@@ -10,9 +10,9 @@ float para[5] = {0.01, 1.2, 5, 0.1, 0.0};  // q, r, x, p, k
 
 void sensors_init() {
   Serial.begin(9600);
-  // pinMode(sensor_1, INPUT);
-  // pinMode(sensor_2, INPUT);
-  // pinMode(sensor_3, INPUT);
+  pinMode(sensor_1, INPUT);
+  pinMode(sensor_2, INPUT);
+  pinMode(sensor_3, INPUT);
   pinMode(sensor_4, INPUT);
   pinMode(sensor_5, INPUT);
   pinMode(sensor_6, INPUT);
@@ -167,11 +167,11 @@ void can_move_forward_test() {
   while (1) {
 
     for (int i = 0; i<10; i ++) {
-      values_sensor_1[i] = analogRead(sensor_1); // backward
+      values_sensor_1[i] = analogRead(sensor_1); // forward
       delay(25);
-      values_sensor_2[i] = analogRead(sensor_2); // backward
+      values_sensor_2[i] = analogRead(sensor_2); // forward
       delay(25);
-      values_sensor_3[i] = analogRead(sensor_3); // backward
+      values_sensor_3[i] = analogRead(sensor_3); // forward
       delay(25);
     }
 

@@ -17,6 +17,7 @@ void setup() {
 
 void loop() {
   can_move_forward_test();
+  // can_move_backward_test();
   // loop_network();
   delay(20);
 }
