@@ -28,9 +28,8 @@ int cal_turn_delay(float angle) {
 void move_distance(float distance) {
   bool distanceCompleted = false; 
   while ((isClose == false) && (distanceCompleted == false)) {
-    printf("Entered while move distance");
     if (distance > 0) {
-      if (can_move_forward())
+      if (can_move_forward() == true)
         move_forward();
       else 
         isClose = true;
