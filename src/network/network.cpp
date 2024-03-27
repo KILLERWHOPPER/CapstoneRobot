@@ -19,6 +19,7 @@ WiFiClient client;
 
 WiFiMulti wifimulti;
 
+bool noObstacle = true;
 
 void setup_network() {
   // initialize serial communication:
@@ -128,9 +129,28 @@ void decodeMessage(String jsonString) {
 
 void handleCommand(String command, float data) {
   if (command == "move") {
-    // Process move command
     Serial.println("Received move command");
-    move_distance(data);
+
+    int intervals = 15;
+    int totalSegments = static_cast<int>(abs(data) / intervals); // Calculate total number of segments
+    float segmentDistance = (data < 0) ? -intervals : intervals; 
+
+    for (int i = 0; i < totalSegments; i++) {
+      // Verify that there is no obstacle
+      if (data < 0) {
+        can_move_backward();
+      } else {
+        can_move_forward();
+      }
+      
+      if (noObstacle) {
+        // Process move command for the segment distance
+        move_distance(segmentDistance);
+      } else {
+        // Stop moving if obstacle detected
+        break;
+      }
+    }
   } else if (command == "turn") {
     // Process turn command
     Serial.println("Received turn command");

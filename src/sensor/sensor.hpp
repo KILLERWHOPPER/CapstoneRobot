@@ -14,8 +14,10 @@
 #include <Arduino.h>
 #include "motor/motor.hpp"
 
+extern bool noObstacle;
+
 void sensors_init();
 void can_move_forward();
-bool can_move_backward();
+void can_move_backward();
 
 #endif

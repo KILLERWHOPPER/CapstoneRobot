@@ -3,8 +3,6 @@ Ticker timer;
 byte moving_dir =
     0;  // 0: stop, 1: forward, 2: backward, 3: turn left, 4: turn right
 
-bool noObstacle = true;
-
 void motor_init() {
   pinMode(motor_1_A, OUTPUT);
   pinMode(motor_1_B, OUTPUT);
@@ -28,42 +26,18 @@ int cal_turn_delay(float angle) {
 }
 
 void move_distance(float distance) {
-  bool distanceCompleted = false; 
-
-  // compute distance to travel
-  int delayTime = cal_move_delay(distance);
-
-  while ((noObstacle == true) && (distanceCompleted == false)) {
-
-    if (distance > 0) {
-      can_move_forward();
-      Serial.printf("bool is : %d \n", noObstacle);
-      if (noObstacle == true) {
-        Serial.printf("moving forward \n");
-        move_forward();
-      }
-      else {
-        stop();
-        break;
-      }
-    }
-
-    // if (distance < 0) {
-    //   distance = 0 - distance;
-    //   if (can_move_backward()) {
-    //      move_backward();
-    //   }
-    //   else 
-    //     isClose = true;
-    // }
-
-    timer.attach_ms(delayTime, stop);
-    Serial.printf("stoping \n");
-    distanceCompleted = true;
+  if (distance > 0) {
+      move_forward();
   }
 
-  // Serial.printf("stoping 2 \n");
-  // stop();
+  else if (distance < 0) {
+    distance = 0 - distance;
+    move_backward();
+  }
+
+  // compute time to move for required 
+  int delayTime = cal_move_delay(distance);
+  timer.attach_ms(delayTime, stop);
 }
 
 void turn_angle(float angle) {
@@ -77,13 +51,11 @@ void turn_angle(float angle) {
     angle = 0 - angle;
     turn_left();
   }
+
+  // compute angle
   int delayTime = cal_turn_delay(angle);
-    //   angle * 600 /
-    //   90;  // we know from testing that a 90deg spin takes about 700ms
-  Serial.printf("delayTime: %d ms\n", delayTime);
   timer.attach_ms(delayTime, stop);
-  // delay(5000);
-  // stop();
+
 }
 
 void move_forward() {

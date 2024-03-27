@@ -17,7 +17,6 @@
 #include "sensor/sensor.hpp"
 
 extern byte moving_dir;
-extern bool noObstacle;
 
 void motor_init();
 void move_forward();

@@ -20,8 +20,6 @@ float cal_distance(float rawD) {
 }
 
 void can_move_forward() {
-  // printf(">>>>>>Entering sensor reading function \n");
-
   float values_sensor_1[10];
   float values_sensor_2[10];
   float values_sensor_3[10];
@@ -57,25 +55,22 @@ void can_move_forward() {
 
   for (int i = 0; i < 3; i ++) {
     distances[i] = cal_distance(sensor_averages[i]);
-    printf("distance of sensor %d is %f \n", i+1, distances[i]);
+    // This is not an actual distance (neither cm or inches)
+    printf("Value of sensor %d is %f \n", i+1, distances[i]);
     // delay(10);
   }
 
   if (distances[0] < 1 || distances[1] < 1 || distances[2] < 1) {
     noObstacle = false;
     printf("obstacle detected \n");
-    // return false;
   }
   else {
     noObstacle = true;
     printf("no obstacle \n");
-    // return true;
   }
 }
 
-bool can_move_backward() {
-  // printf(" >>>>>>  Entering sensor reading function \n");
-
+void can_move_backward() {
   float values_sensor_4[10];
   float values_sensor_5[10];
   float values_sensor_6[10];
@@ -111,16 +106,17 @@ bool can_move_backward() {
 
   for (int i = 0; i < 3; i ++) {
     distances[i] = cal_distance(sensor_averages[i]);
-    printf("distance of sensor %d is %f \n", i+4, distances[i]);
+    // This is not an actual distance (neither cm or inches)
+    printf("Value of sensor %d is %f \n", i+4, distances[i]);
     // delay(10);
   }
 
   if (distances[0] < 1 || distances[1] < 1 || distances[2] < 1) {
+    noObstacle = false;
     printf("obstacle detected \n");
-    return false;
   }
   else {
+    noObstacle = true;
     printf("no obstacle \n");
-    return true;
   }
 }

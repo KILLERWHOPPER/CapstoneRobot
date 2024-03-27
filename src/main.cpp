@@ -6,8 +6,8 @@
 
 void setup() {
   Serial.begin(9600);
-  // motor_init();
-  // setup_network();
+  motor_init();
+  setup_network();
   sensors_init();
 }
 

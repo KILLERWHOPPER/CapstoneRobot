@@ -6,6 +6,7 @@
 #include <wifiMulti.h>
 #include <ArduinoJson.h>
 #include "motor/motor.hpp"
+#include "sensor/sensor.hpp"
 
 extern char ssid[];          // your network SSID (name)
 extern char pass[];          // your network password
@@ -16,7 +17,7 @@ extern int robot_id;
 extern int status;            // the WiFi connection status
 extern const int bufferSize;  // Adjust the buffer size based on your message size
 extern char message[];        // Buffer to store incoming messages
-extern WiFiClient client;      // WiFi client for communication
+extern WiFiClient client;     // WiFi client for communication
 
 void registration();
 void setup_network();
