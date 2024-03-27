@@ -42,6 +42,10 @@ void move_distance(float distance) {
         Serial.printf("moving forward \n");
         move_forward();
       }
+      else {
+        stop();
+        break;
+      }
     }
 
     // if (distance < 0) {
@@ -54,12 +58,12 @@ void move_distance(float distance) {
     // }
 
     timer.attach_ms(delayTime, stop);
-    Serial.printf("stoping 1 \n");
+    Serial.printf("stoping \n");
     distanceCompleted = true;
   }
 
   // Serial.printf("stoping 2 \n");
-  stop();
+  // stop();
 }
 
 void turn_angle(float angle) {

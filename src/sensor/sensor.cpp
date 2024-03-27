@@ -61,7 +61,7 @@ void can_move_forward() {
     // delay(10);
   }
 
-  if (distances[0] < 0 || distances[1] < 0 || distances[2] < 0) {
+  if (distances[0] < 1 || distances[1] < 1 || distances[2] < 1) {
     noObstacle = false;
     printf("obstacle detected \n");
     // return false;
