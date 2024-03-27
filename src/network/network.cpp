@@ -131,7 +131,7 @@ void handleCommand(String command, float data) {
   if (command == "move") {
     Serial.println("Received move command");
 
-    int intervals = 15;
+    int intervals = 10;
     int totalSegments = static_cast<int>(abs(data) / intervals); // Calculate total number of segments
     float segmentDistance = (data < 0) ? -intervals : intervals; 
 
