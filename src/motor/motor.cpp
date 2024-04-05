@@ -14,13 +14,14 @@ void motor_init() {
 }
 
 int cal_move_delay(float distance) {
-    int delay = 1000 * distance / 36;
-    return delay;
+  // we know from testing that robot speed is 36 cm/s
+  int delay = 1000 * distance / 36;
+  return delay;
 }
 
 int cal_turn_delay(float angle) {
-    int delay = angle * 600 / 90; 
-    return delay;
+  int delay = angle * 600 / 90; 
+  return delay;
 }
 
 void move_distance(float distance) {
@@ -43,7 +44,7 @@ void turn_angle(float angle) {
     Serial.printf("The robot is turn right");
     turn_right();
   }
-  // we know from testing that robot speed is 36 cm/s
+  
   if (angle < 0) {
     Serial.printf("The robot is turn left");
     angle = 0 - angle;
@@ -53,7 +54,6 @@ void turn_angle(float angle) {
   // compute angle
   int delayTime = cal_turn_delay(angle);
   timer.attach_ms(delayTime, stop);
-
 }
 
 void move_forward() {

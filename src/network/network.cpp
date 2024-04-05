@@ -4,10 +4,10 @@
 
 // PARAMETERS
 
-char ssid[] = "iPhone Lisa";          // your network SSID (name)
-char pass[] = "PourEloi";      // your network password
-char server[] = "172.20.10.2";    // IP address of the server you want to connect to
-int port = 3000;                    // port number
+char ssid[] = " ";      // your network SSID (name)
+char pass[] = " ";      // your network password
+char server[] = " ";    // IP address of the server you want to connect to
+int port = 3000;        // port number
 int robot_id = 0;
 
 // GLOBAL VARIABLES
@@ -30,9 +30,6 @@ void setup_network() {
   while (wifimulti.run() != WL_CONNECTED) {
     Serial.print("Attempting to connect to WiFi: ");
     Serial.println(ssid);
-    // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
-    //status = WiFi.begin(ssid, pass);
-    // wait 10 seconds for connection:
     delay(500);
   }
   Serial.println("Connected to WiFi");
@@ -56,10 +53,6 @@ void setup_network() {
 void loop_network() {
   // if there are incoming bytes available from the server:
   if (client.available()) {
-    // read the bytes and print them to the serial monitor:
-    // int bytesRead = client.readBytes(message, bufferSize);
-    // message[bytesRead] = '\0';
-
     // read the message until a newline character is encountered:
     String message = client.readStringUntil('\n');
 

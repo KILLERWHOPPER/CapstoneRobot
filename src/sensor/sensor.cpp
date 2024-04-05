@@ -57,7 +57,6 @@ void can_move_forward() {
     distances[i] = cal_distance(sensor_averages[i]);
     // This is not an actual distance (neither cm or inches)
     printf("Value of sensor %d is %f \n", i+1, distances[i]);
-    // delay(10);
   }
 
   if (distances[0] < 1 || distances[1] < 1 || distances[2] < 1) {
@@ -108,7 +107,6 @@ void can_move_backward() {
     distances[i] = cal_distance(sensor_averages[i]);
     // This is not an actual distance (neither cm or inches)
     printf("Value of sensor %d is %f \n", i+4, distances[i]);
-    // delay(10);
   }
 
   if (distances[0] < 1 || distances[1] < 1 || distances[2] < 1) {
